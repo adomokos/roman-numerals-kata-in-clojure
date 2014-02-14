@@ -1,23 +1,22 @@
 (ns roman-numerals.printer
   (use [clojure.string :only (join)]))
 
-(defn- chop-one [[converted number]]
-  (if (= number 0)
-    converted
-    (chop-one [(str converted "I") (dec number)])))
-
-(defn- chopper [chop-by-number roman-numeral]
-   (fn [[converted number]]
-      (cond
-        (= number chop-by-number) [(str converted roman-numeral) 0]
-        (= number (dec chop-by-number)) [(str "I" roman-numeral) 0]
-        (< number chop-by-number) [converted number]
-        :else [(str converted roman-numeral) (- number chop-by-number)])))
+(defn- find-highest-reducer [for-number]
+  (cond
+    (>= for-number 49) {:arabic 50 :roman "L"}
+    (>= for-number 9) {:arabic 10 :roman "X"}
+    (>= for-number 4)  {:arabic 5  :roman "V"}
+    :else {:arabic 1 :roman "I"}))
 
 (defn convert
   "Converts the provided arabic number to roman numeral"
-  [input]
-    (-> ((chopper 10 "X") ["" input])
-        ((chopper 10 "X"))
-        ((chopper 5 "V"))
-          chop-one))
+  ([input]
+    (convert input ""))
+  ([input converted]
+    (let [highest-reducer (find-highest-reducer input)
+          decremented-product (str converted "I" (:roman highest-reducer))
+          product (str converted (:roman highest-reducer))]
+      (cond
+        (= 0 input) converted
+        (= input (dec (:arabic highest-reducer))) decremented-product
+        :else (convert (- input (:arabic highest-reducer)) product)))))

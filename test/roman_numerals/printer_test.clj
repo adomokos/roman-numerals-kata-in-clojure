@@ -3,7 +3,6 @@
             [roman-numerals.printer :refer :all]))
 
 (deftest convert-test
-  (println (convert 14))
   (testing "the roman numeral converter"
     ;(println (macroexpand-1 `(chopper 5 "V")))
     (are [x y] (= x y)
@@ -20,10 +19,16 @@
       "XI"    (convert 11)
       "XII"   (convert 12)
       "XIII"  (convert 13)
-      ;"XIV"   (convert 14)
+      "XIV"   (convert 14)
       "XV"    (convert 15)
       "XVI"   (convert 16)
+      "XIX"   (convert 19)
       "XX"    (convert 20)
       "XXI"   (convert 21)
       "XXIII" (convert 23)
+      "XXIV"  (convert 24)
+      "XXIX"  (convert 29)
+      "XXXII" (convert 32)
+      "XXXIX" (convert 39)
+      "L"     (convert 50)
     )))
