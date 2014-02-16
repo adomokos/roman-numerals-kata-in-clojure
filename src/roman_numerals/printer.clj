@@ -1,17 +1,22 @@
 (ns roman-numerals.printer
   (use [clojure.string :only (join)]))
 
+(def roman-numerals-conversions [
+    {:arabic 100 :roman "C"}
+    {:arabic 90 :roman "XC"}
+    {:arabic 50 :roman "L"}
+    {:arabic 40 :roman "XL"}
+    {:arabic 10 :roman "X"}
+    {:arabic 9 :roman "IX"}
+    {:arabic 5  :roman "V"}
+    {:arabic 4  :roman "IV"}
+    {:arabic 1  :roman "I"}])
+
 (defn- find-highest-reducer [for-number]
-  (cond
-    (>= for-number 100){:arabic 100 :roman "C"}
-    (>= for-number 90) {:arabic 90 :roman "XC"}
-    (>= for-number 50) {:arabic 50 :roman "L"}
-    (>= for-number 40) {:arabic 40 :roman "XL"}
-    (>= for-number 10)  {:arabic 10 :roman "X"}
-    (= for-number 9)  {:arabic 9 :roman "IX"}
-    (>= for-number 5)  {:arabic 5  :roman "V"}
-    (= for-number 4)   {:arabic 4  :roman "IV"}
-    :else {:arabic 1 :roman "I"}))
+  (let [highest-reducer (first (filter #(>= for-number (:arabic %)) roman-numerals-conversions))]
+    (if (nil? highest-reducer)
+      (last roman-numerals-conversions)
+      highest-reducer)))
 
 (defn convert
   "Converts the provided arabic number to roman numeral"
@@ -21,6 +26,6 @@
     (let [highest-reducer (find-highest-reducer input)
           converted-number (str converted (:roman highest-reducer))
           decremented-input (- input (:arabic highest-reducer))]
-      (cond
-        (= 0 input) converted ;; No need to convert more - exit
-        :else (convert decremented-input converted-number)))))
+      (if (= 0 input)
+          converted ;; No need to convert more - exit
+          (convert decremented-input converted-number)))))
