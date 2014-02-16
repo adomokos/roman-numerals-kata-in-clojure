@@ -19,7 +19,8 @@
     (convert input ""))
   ([input converted]
     (let [highest-reducer (find-highest-reducer input)
-          product (str converted (:roman highest-reducer))]
+          converted-number (str converted (:roman highest-reducer))
+          decremented-input (- input (:arabic highest-reducer))]
       (cond
         (= 0 input) converted ;; No need to convert more - exit
-        :else (convert (- input (:arabic highest-reducer)) product)))))
+        :else (convert decremented-input converted-number)))))
