@@ -48,4 +48,5 @@
       "CC"   (convert 200)
       "CCC"  (convert 300)
       "CCCI" (convert 301)
+      "CD"   (convert 400)
     )))
