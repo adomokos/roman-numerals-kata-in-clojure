@@ -2,6 +2,7 @@
   (use [clojure.string :only (join)]))
 
 (def roman-numerals-conversions [
+    {:arabic 500 :roman "D"}
     {:arabic 400 :roman "CD"}
     {:arabic 100 :roman "C"}
     {:arabic 90 :roman "XC"}
