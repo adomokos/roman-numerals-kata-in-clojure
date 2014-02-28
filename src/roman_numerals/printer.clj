@@ -1,5 +1,4 @@
-(ns roman-numerals.printer
-  (use [clojure.string :only (join)]))
+(ns roman-numerals.printer)
 
 (def roman-numerals-conversions [
     {:arabic 500 :roman "D"}
