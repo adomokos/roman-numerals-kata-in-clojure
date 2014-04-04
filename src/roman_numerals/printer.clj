@@ -29,4 +29,4 @@
           decremented-input (- input (:arabic highest-reducer))]
       (if (= 0 input)
           converted ;; No need to convert more - exit
-          (convert decremented-input converted-number)))))
+          (recur decremented-input converted-number)))))
